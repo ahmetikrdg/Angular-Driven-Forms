@@ -1,0 +1,170 @@
+
+<div class="container">
+  <div class="row">
+      <div class="col-8">
+        <div class="m-3">
+          <form #form="ngForm" (ngSubmit)="submitForm(form)">
+            <div class="bg-danger text-white p-3 my-2" *ngIf="formSubmitted && form.invalid">
+                Bir hata oluştu bilgilerinizi kontrol ediniz.
+                <ul>
+                  <li *ngFor="let error of getFormValidationErrors(form)">{{error}}</li>
+                </ul>
+            </div>
+          <div class="bg-info text-white m-2 p-2">
+            {{jsonProduct}}
+          </div>
+
+            <label>Name</label>
+            <input required minlength="3" pattern="^[A-Za-z ]+$" [(ngModel)]="newProduct.name" name="name" #name="ngModel" (change)="log(name)" type="text" class="form-control">
+            <!-- <div class="alert alert-danger" *ngIf="!name.valid && name.touched">
+              <p *ngIf="name.errors.required">Name is required.</p>
+              <p *ngIf="name.errors.minlength">min. 3 charachters</p>
+              <p *ngIf="name.errors.pattern">Only letters and spaces</p>
+            </div> -->
+            <div class="alert alert-danger" *ngIf="(formSubmitted || name.dirty) && name.invalid">
+            <p *ngFor="let error of getValidationErrors(name)">{{error}}</p>
+          </div>
+
+            <label>Description</label>
+            <textarea required [(ngModel)]="newProduct.description" name="description" #description="ngModel" type="text" class="form-control"></textarea>
+            <div class="alert alert-danger" *ngIf="(formSubmitted || description.dirty) && description.invalid">
+              <p *ngFor="let error of getValidationErrors(description)">{{error}}</p>
+            </div>
+
+            <label>Price</label>
+            <input required [(ngModel)]="newProduct.price" type="text"  name="Price" #price="ngModel" class="form-control">
+            <div class="alert alert-danger" *ngIf="(formSubmitted || price.dirty) && price.invalid">
+              <p *ngFor="let error of getValidationErrors(price)">{{error}}</p>
+            </div>
+
+            <label>imageUrl</label>
+            <input required [(ngModel)]="newProduct.imageUrl" type="text" name="imageUrl" #imageUrl="ngModel" class="form-control">
+            <div class="alert alert-danger" *ngIf="(formSubmitted || imageUrl.dirty) && imageUrl.invalid">
+              <p *ngFor="let error of getValidationErrors(imageUrl)">{{error}}</p>
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="formSubmitted && form.invalid" [class.btn-secondary]="formSubmitted&&form.invalid">Submit</button>
+        </form>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+
+
+<admin-products></admin-products> -->
+
+<!--
+  <div *ngIf="model.getProducts().length>0 then productList else noProducts" >
+
+</div>
+
+<div *ngIf="model.getProducts().length==0" class="bg-primary text-white m-2 p-2">
+  There are no products in the repository
+</div>
+
+
+<ng-template #productList>
+  <div class="bg-primary text-white m-2 p-2">
+  There are {{model.getProducts().length}} products in the repository
+ </div>
+</ng-template>
+
+<ng-template #noProducts>
+  <div class="bg-primary text-white m-2 p-2">
+    There are no products in the repository
+   </div>
+</ng-template>
+
+<div [hidden]="true" class="bg-primary text-white m-2 p-2">
+  There are {{model.getProducts().length}} products in the repository
+ </div>
+
+ <div class="bg-info m-2 p-2" [ngSwitch]="model.getProductCount()">
+   <span *ngSwitchCase="0">There are no products</span>
+   <span *ngSwitchCase="1">There are 1 product</span>
+   <span *ngSwitchCase="2">There are 2 products</span>
+   <span *ngSwitchDefault>There are many products</span>
+ </div>
+
+ <div class="bg-info m-2 p-2" [ngSwitch]="model.getProductsById(1).name">
+  <span *ngSwitchCase="productName">Samsung S5</span>
+  <span *ngSwitchCase="'Samsung S6'">Samsung S6</span>
+  <span *ngSwitchCase="'Samsung S7'">Samsung S7</span>
+  <span *ngSwitchDefault>Other products</span>
+ </div>
+
+<ng-template [ngTemplateOutlet]="productListed" [ngTemplateOutletContext]="{products:model.getProducts()}"></ng-template>
+
+
+<ng-template #productListed let-productx="products">
+  <div class="m-5">
+    <button class="btn-primary"(click)="addProduct()">Add Product</button>
+   <ul class="list-group m-5">
+     <li *ngFor="let product of productx;" class="list-group-item">
+       {{ product.name }}
+       <button class="btn-danger" (click)="deleteProduct(product)">Delete</button>
+     </li>
+   </ul>
+ </div>
+</ng-template>
+
+<input type="text" appInputEmail>
+
+<input type="text" appInputEmail>
+
+ -->
+<!-- <div>
+  <h2>
+    {{product.name}}
+  </h2>
+  <h2 [textContent]="product.name">
+  </h2>
+
+  <img src="assets/img/{{product.imageUrl}}" alt="">--interpolition--
+  <img [src]="'assets/img/'+product.imageUrl" alt="">--property binding--
+</div> -->
+<!--
+<div [class]="getClasses(1)">Katalogdaki ilk ürün {{model.getProductsById(1).name}}</div>
+<div [class]="getClasses(2)">Katalogdaki ikinci ürün {{model.getProductsById(2).name}}</div>
+
+<button class="btn btn-primary" [class.disabled]="disabled">button</button>
+
+<div class="m-2 p-2" [ngClass]="getClassMap(1)">Katalogdaki <span [style.color]="color"> ilk ürün </span> {{model.getProductsById(1).name}}</div>
+
+<div class="m-2 p-2" [ngClass]="getClassMap(2)">Katalogdaki <span [style.fontSize]="fontSize"> ikinci ürün </span> {{model.getProductsById(2).name}}</div>
+
+<div class="m-2 p-2" [ngClass]="getClassMap(3)">Katalogdaki <span [ngStyle]="getStyles(3)"> Üçüncü ürün </span> {{model.getProductsById(3).name}}</div>
+
+<div (click)="onDivClicked()" style="width:500px; height:500px; background-color: aqua;"  >
+
+  <button name="btn1" (click)="onSubmit($event)" >Submit</button>
+  <button name="btn2" (click)="onSubmit($event)" >Submit</button>
+
+</div>
+
+<input #email (keyup)="onKeyUp(email.value)"> -->
+
